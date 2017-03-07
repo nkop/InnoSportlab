@@ -14,15 +14,28 @@ function getCoaches(req, res){
     var query = {};
     if (req.params.id) {
         query.userName = req.params.id;
+        Coach.find(query)
+            .populate('sporters')
+            .then(data => {
+            console.log(data);
+        if(req.params.id){
+            data = data[0];
+        }
+        res.json(data);
+    }).fail(err => handleError(req, res, 500, err));
+    } else {
+        Coach.find(query)
+            .then(data => {
+            console.log(data);
+        if (req.params.id) {
+            data = data[0];
+        }
+        res.json(data);
+    }).
+        fail(err => handleError(req, res, 500, err)
+    )
+        ;
     }
-
-    Coach.find(query).then(data => {
-        console.log(data);
-    if(req.params.id){
-        data = data[0];
-    }
-    res.json(data);
-}).fail(err => handleError(req, res, 500, err));
 }
 
 function addCoach(req, res){

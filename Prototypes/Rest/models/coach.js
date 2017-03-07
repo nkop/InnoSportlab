@@ -23,3 +23,4 @@ var coachSchema = new mongoose.Schema({
 });
 
 mongoose.model('Coach', coachSchema);
+
