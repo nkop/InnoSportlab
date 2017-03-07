@@ -12,10 +12,12 @@ mongoose.Promise = require('q').Promise;
 //models
 require('./models/user');
 require('./models/video');
+require('./models/coach');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var videos = require('./routes/videos');
+var coaches = require('./routes/coaches');
 
 function handleError(req, res, statusCode, message){
     console.log();
@@ -44,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users(handleError));
+app.use('/coaches', coaches(handleError));
 //app.use('/videos', videos(handleError));
 
 // catch 404 and forward to error handler

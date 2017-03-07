@@ -3,17 +3,20 @@ var router = express();
 var _ = require('underscore');
 var handleError;
 var async = require('async');
+var bcrypt = require('bcrypt');
+
 
 var mongoose = require('mongoose');
 User = mongoose.model('User');
 
 function getUsers(req, res){
   var query = {};
-  if (req.params.id){
-    query._id = req.params.id.toLowerCase();
+  if (req.params.id) {
+      query.userName = req.params.id;
   }
 
   User.find(query).then(data => {
+      console.log(data);
       if(req.params.id){
       data = data[0];
     }
@@ -24,20 +27,21 @@ function getUsers(req, res){
 function addUser(req, res){
     console.log("adding user");
     var user = new User(req.body);
+    var hash = bcrypt.hashSync(req.body.password, 10);
+    user.password = hash;
+    user.created_at = Date.now();
+    user.updated_at = Date.now();
     user
         .save()
-        .then(savedUser => {
-            res.status(201);
-            res.json(savedUser);
-    })
-    .fail(err => handleError(req, res, 500, err));
+        .fail(err => handleError(req, res, 500, err));
 }
 
-function putRFID(req, res){
-    User.findById(req.params.id, function(err, user) {
+function patchRFID(req, res){
+    User.findOne({ 'userName' : req.params.id }, 'userName', function (err, user) {
         if (err) { handleError(req, res, 500, err); }
 
         user.rfid = req.body.rfid;
+        user.updated_at = Date.now();
 
         user.save(function(err){
             if (err) {handleError(req, res, 500, err); }
@@ -55,7 +59,7 @@ router.route('/:id')
     .get(getUsers);
 
 router.route('/:id/rfid')
-    .put(putRFID);
+    .patch(patchRFID);
 
 module.exports = function (errCallback){
     console.log('Initializing users routing module');
