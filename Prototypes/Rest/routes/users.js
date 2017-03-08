@@ -50,16 +50,38 @@ function patchRFID(req, res){
     });
 }
 
+function patchVideo(req, res){
+    User.findOne({ 'userName' : req.params.id}, 'username', function (err, user) {
+        if (err) { handleError(req, res, 500, err); }
+
+
+    })
+}
+
+function deleteUser(req, res){
+    User.remove({
+        userName: req.params.id
+    }, function(err, user){
+        if (err) {handleError(req, res, 500, err); }
+        res.json({ message: "User successfully deleted" });
+    });
+}
+
 /* GET users listing. */
 router.route('/')
     .get(getUsers)
     .post(addUser);
 
 router.route('/:id')
-    .get(getUsers);
+    .get(getUsers)
+    .delete(deleteUser);
 
 router.route('/:id/rfid')
     .patch(patchRFID);
+
+router.route('/:id/video')
+    .patch(patchVideo);
+
 
 module.exports = function (errCallback){
     console.log('Initializing users routing module');

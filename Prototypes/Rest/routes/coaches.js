@@ -33,9 +33,7 @@ function getCoaches(req, res){
         res.json(data);
     }).
         fail(err => handleError(req, res, 500, err)
-    )
-        ;
-    }
+    );}
 }
 
 function addCoach(req, res){
@@ -74,13 +72,23 @@ function patchSporter(req, res){
     });
 }
 
+function deleteCoach(req, res){
+    Coach.remove({
+        userName: req.params.id
+    }, function(err, user){
+        if (err) {handleError(req, res, 500, err); }
+        res.json({ message: "Coach successfully deleted" });
+    });
+}
+
 /* GET coachs listing. */
 router.route('/')
     .get(getCoaches)
     .post(addCoach);
 
 router.route('/:id')
-    .get(getCoaches);
+    .get(getCoaches)
+    .delete(deleteCoach);
 
 router.route('/:id/sporter')
     .patch(patchSporter);
