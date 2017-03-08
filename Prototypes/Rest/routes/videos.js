@@ -13,7 +13,7 @@ var bcrypt = require('bcrypt');
 var mongoose = require('mongoose');
 Video = mongoose.model('Video');
 Tag = mongoose.model('Tag');
-User = mongoose.model('Tag');
+User = mongoose.model('User');
 
 function getVideos(req, res){
     var query = {};
