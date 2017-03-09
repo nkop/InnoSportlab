@@ -12,11 +12,13 @@ mongoose.Promise = require('q').Promise;
 //models
 require('./models/user');
 require('./models/coach');
+require('./models/tag');
 //require('./models/video');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var coaches = require('./routes/coaches');
+var tags = require('./routes/tags');
 //var videos = require('./routes/videos');
 
 function handleError(req, res, statusCode, message){
