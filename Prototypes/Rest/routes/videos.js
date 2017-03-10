@@ -43,7 +43,7 @@ function getVideos(req, res){
 
 function addVideo(req, res){
     var fail = null;
-    forEach (req.body.video as reqVideo){
+    for (var reqVideo in req.body.video){
         var video = new Video();
         video.filePath = reqVideo.filePath;
         if (reqVideo.tags != null) video.tags = reqVideo.tags;
