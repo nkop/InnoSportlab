@@ -60,7 +60,7 @@ router.route('/:id')
     .delete(deleteTag);
 
 module.exports = function (errCallback){
-    console.log('Initializing coaches routing module');
+    console.log('Initializing tags routing module');
     handleError = errCallback;
     return router;
 }

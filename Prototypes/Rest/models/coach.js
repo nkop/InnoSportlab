@@ -1,13 +1,7 @@
-/**
- * Created by Niels on 7-3-2017.
- */
-
-/**
- * Created by Niels on 2-3-2017.
- */
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var ObjectId = mongoose.Schema.Types.ObjectId;
+var bcrypt = require('bcrypt-nodejs');
 
 var coachSchema = new mongoose.Schema({
     userName: { type: String, required: true, unique: true },
@@ -21,6 +15,14 @@ var coachSchema = new mongoose.Schema({
     created_at: { type: Date, required: true, default: Date.now },
     updated_at: { type: Date, required: true, default: Date.now }
 });
+
+coachSchema.methods.generateHash = function (password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+coachSchema.methods.validPassword = function (password) {
+    return bcrypt.compareSync(password, this.password);
+};
 
 mongoose.model('Coach', coachSchema);
 

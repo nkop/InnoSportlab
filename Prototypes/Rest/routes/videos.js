@@ -7,7 +7,6 @@ var router = express();
 var _ = require('underscore');
 var handleError;
 var async = require('async');
-var bcrypt = require('bcrypt');
 
 
 var mongoose = require('mongoose');

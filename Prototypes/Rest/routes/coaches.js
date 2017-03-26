@@ -3,8 +3,6 @@ var router = express();
 var _ = require('underscore');
 var handleError;
 var async = require('async');
-var bcrypt = require('bcrypt');
-
 
 var mongoose = require('mongoose');
 Coach = mongoose.model('Coach');
@@ -36,7 +34,7 @@ function getCoaches(req, res){
     );}
 }
 
-function addCoach(req, res){
+/*function addCoach(req, res){
     console.log("adding coach");
     var coach = new Coach(req.body);
     var hash = bcrypt.hashSync(req.body.password, 10);
@@ -46,7 +44,7 @@ function addCoach(req, res){
     coach
         .save()
         .fail(err => handleError(req, res, 500, err));
-}
+}*/
 
 function patchSporter(req, res){
     var sporter;
@@ -83,8 +81,7 @@ function deleteCoach(req, res){
 
 /* GET coachs listing. */
 router.route('/')
-    .get(getCoaches)
-    .post(addCoach);
+    .get(getCoaches);
 
 router.route('/:id')
     .get(getCoaches)
