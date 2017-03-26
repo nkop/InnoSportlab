@@ -3,7 +3,6 @@ var router = express();
 var _ = require('underscore');
 var handleError;
 var async = require('async');
-var bcrypt = require('bcrypt-nodejs');
 
 
 var mongoose = require('mongoose');
@@ -24,7 +23,7 @@ function getUsers(req, res){
   }).fail(err => handleError(req, res, 500, err));
 }
 
-function addUser(req, res){
+/*function addUser(req, res){
     console.log("adding user");
     var user = new User(req.body);
     var hash = bcrypt.hashSync(req.body.password, 10);
@@ -34,7 +33,7 @@ function addUser(req, res){
     user
         .save()
         .fail(err => handleError(req, res, 500, err));
-}
+}*/
 
 function patchRFID(req, res){
     User.findOne({ 'userName' : req.params.id }, 'userName', function (err, user) {
@@ -69,8 +68,7 @@ function deleteUser(req, res){
 
 /* GET users listing. */
 router.route('/')
-    .get(getUsers)
-    .post(addUser);
+    .get(getUsers);
 
 router.route('/:id')
     .get(getUsers)

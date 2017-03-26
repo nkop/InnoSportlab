@@ -2,6 +2,7 @@ var LocalStrategy = require('passport-local').Strategy;
 //var FacebookStrategy = require('passport-facebook').Strategy;
 
 var User = require('../models/user');
+var Coach = require('../models/coach');
 
 //var configAuth = require('./auth');
 
@@ -32,11 +33,16 @@ module.exports = function (passport) {
                             return done(err);
 
                         if (user) {
-                            return done(null, false, req.flash('signupMessage', 'This email is already taken'));
+                            return done(null, false, req.flash('signupMessage', 'This username is already taken'));
                         } else {
                             var newUser = new User();
                             newUser.userName = userName;
-                            newUser.userName = newUser.generateHash(password);
+                            newUser.password = newUser.generateHash(password);
+                            newUser.firstName = req.body.firstName;
+                            newUser.lastName = req.body.lastName;
+                            newUser.email = req.body.email;
+                            newUser.city = req.body.city;
+                            newUser.dateOfBirth = req.body.dateOfBirth;
 
                             newUser.save(function (err) {
                                 if (err)
@@ -50,6 +56,11 @@ module.exports = function (passport) {
 
                     user.userName = userName;
                     user.userName = user.generateHash(password);
+                    user.firstName = req.body.firstName;
+                    user.lastName = req.body.lastName;
+                    user.email = req.body.email;
+                    user.city = req.body.city;
+                    user.dateOfBirth = req.body.dateOfBirth;
 
                     user.save(function (err) {
                         if (err)
@@ -80,6 +91,80 @@ module.exports = function (passport) {
                 return done(null, user);
             });
         }));
+
+    passport.use('coach-local-signup', new LocalStrategy({
+        usernameField: 'userName',
+        passwordField: 'password',
+        passReqToCallback: true
+    },function (req, userName, password, done) {
+        process.nextTick(function () {
+            if (!req.coach) {
+                Coach.findOne({'userName': userName}, function (err, user) {
+                    if (err)
+                        return done(err);
+
+                    if (user) {
+                        return done(null, false, req.flash('signupMessage', 'This email is already taken'));
+                    } else {
+                        var newCoach = new Coach();
+                        newCoach.userName = userName;
+                        newCoach.password = newCoach.generateHash(password);
+                        newCoach.firstName = req.body.firstName;
+                        newCoach.lastName = req.body.lastName;
+                        newCoach.email = req.body.email;
+                        newCoach.city = req.body.city;
+                        newCoach.dateOfBirth = req.body.dateOfBirth;
+
+                        newCoach.save(function (err) {
+                            if (err)
+                                throw err;
+                            return done(null, newCoach);
+                        });
+                    }
+                });
+            } else {
+                var coach = req.coach;
+
+                coach.userName = userName;
+                coach.userName = coach.generateHash(password);
+                coach.firstName = req.body.firstName;
+                coach.lastName = req.body.lastName;
+                coach.email = req.body.email;
+                coach.city = req.body.city;
+                coach.dateOfBirth = req.body.dateOfBirth;
+
+                user.save(function (err) {
+                    if (err)
+                        throw err;
+                    return done(null, coach);
+                });
+            }
+        });
+    }));
+
+    passport.use('coach-local-login', new LocalStrategy({
+            usernameField: 'userName',
+            passwordField: 'password',
+            passReqToCallback: true
+        },
+        function (req, email, password, done) {
+            Coach.findOne({'userName': userName}, function (err, coach) {
+                if (err)
+                    return done(err);
+
+                if (!coach)
+                    return done(null, false, req.flash('loginMessage', 'No coach found.'));
+
+                if (!coach.validPassword(password))
+                    return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
+
+                return done(null, user);
+            });
+        }));
+
+
+
+
 
     // facebook
     // passport.use(new FacebookStrategy({

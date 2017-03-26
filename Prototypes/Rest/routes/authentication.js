@@ -62,7 +62,7 @@ router.route('/get')
     .delete(deleteUsers);
 
 module.exports = function (errCallback) {
-    console.log('Initializing users routing module');
+    console.log('Initializing authentication routing module');
     handleError = errCallback;
     return router;
 };
