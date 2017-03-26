@@ -4,6 +4,7 @@
 var mongoose = require('mongoose');
 //var Video = mongoose.model('Video');
 var ObjectId = mongoose.Schema.Types.ObjectId;
+var bcrypt = require('bcrypt-nodejs');
 
 var userSchema = new mongoose.Schema({
     userName: { type: String, required: true, unique: true },
@@ -19,4 +20,12 @@ var userSchema = new mongoose.Schema({
     updated_at: { type: Date, required: true, default: Date.now }
 });
 
-mongoose.model('User', userSchema);
+userSchema.methods.generateHash = function (password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+userSchema.methods.validPassword = function (password) {
+    return bcrypt.compareSync(password, this.password);
+};
+
+module.exports = mongoose.model('User', userSchema);
