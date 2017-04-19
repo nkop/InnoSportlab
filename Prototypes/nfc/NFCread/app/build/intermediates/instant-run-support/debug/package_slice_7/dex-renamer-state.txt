@@ -1,0 +1,4 @@
+#Wed Apr 19 10:01:01 CEST 2017
+base.0=D\:\\Projects\\NFCread\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_7
+renamed.0=classes.dex
+file.0=D\:\\Projects\\NFCread\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_7\\classes.dex

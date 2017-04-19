@@ -1,0 +1,7 @@
+#Wed Apr 19 11:14:59 CEST 2017
+base.0=D\:\\Projects\\NFCread\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_f67dd62b87006772073362c4c928c23639fc02f9
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=D\:\\Projects\\NFCread\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_da09392df748f12cee0becb26a86adf5b3f560cf\\classes.dex
+base.1=D\:\\Projects\\NFCread\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_da09392df748f12cee0becb26a86adf5b3f560cf
+file.0=D\:\\Projects\\NFCread\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_f67dd62b87006772073362c4c928c23639fc02f9\\classes.dex
